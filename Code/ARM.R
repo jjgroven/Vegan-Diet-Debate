@@ -41,8 +41,8 @@ arules::inspect(dataARM[1:10])  # View the first 10 transactions
 
 #####PERFORMING ARM on whole data set#####
 
-rules = arules::apriori(dataARM, parameter = list(support=.0350,
-                                                  confidence=.03, minlen=2))
+rules = arules::apriori(dataARM, parameter = list(support=.3,
+                                                  confidence=.1, minlen=2))
 arules::inspect(rules)
 
 SortedRules <- sort(rules, by="support", decreasing=TRUE)
@@ -83,3 +83,50 @@ arules::inspect(petaRules [1:10])
 
 plot(petaRules, method = "graph",
      measure = "confidence", shading = "lift")
+
+
+#####Positive Review Associations
+dataARMPos <- read.transactions("transactionDataPos.csv",
+                             rm.duplicates = FALSE,
+                             format = "basket",
+                             sep=",",
+                             skip = 1
+                             
+)
+class(dataARMPos)
+arules::inspect(dataARMPos[1:10])  # View the first 10 transactions
+
+
+rules = arules::apriori(dataARMPos, parameter = list(support=.3,
+                                                  confidence=.1, minlen=2))
+arules::inspect(rules)
+
+SortedRules <- sort(rules, by="support", decreasing=TRUE)
+arules::inspect(SortedRules[1:14])
+
+plot(rules, method = "graph",
+     measure = "confidence", shading = "lift")
+
+#####Negative Review Associations
+###Loading whole data set###
+dataARMNeg <- read.transactions("transactionDataNeg.csv",
+                                rm.duplicates = FALSE,
+                                format = "basket",
+                                sep=",",
+                                skip = 1
+                                
+)
+class(dataARMNeg)
+arules::inspect(dataARMNeg[1:10])  # View the first 10 transactions
+
+
+rules = arules::apriori(dataARMNeg, parameter = list(support=.3,
+                                                     confidence=.1, minlen=2))
+arules::inspect(rules)
+
+SortedRules <- sort(rules, by="support", decreasing=TRUE)
+arules::inspect(SortedRules[1:15])
+
+plot(rules, method = "graph",
+     measure = "confidence", shading = "lift")
+
